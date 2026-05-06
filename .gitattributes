@@ -1,0 +1,13 @@
+# Normalizar saltos de línea a LF en el repositorio, CRLF en checkout Windows
+* text=auto eol=crlf
+
+# Binarios — sin conversión
+*.png binary
+*.jpg binary
+*.ico binary
+*.ttf binary
+*.woff binary
+*.woff2 binary
+*.eot binary
+*.dll binary
+*.pdb binary

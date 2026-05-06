@@ -1,0 +1,33 @@
+## .NET
+bin/
+obj/
+*.user
+*.suo
+.vs/
+TestResults/
+
+## EF migrations temp
+*.db
+*.db-shm
+*.db-wal
+
+## Secrets / config local
+appsettings.Development.json
+**/appsettings.Local.json
+
+## Publicación
+publish/
+**/Properties/PublishProfiles/
+
+## Node / npm (por si se añade algún frontend)
+node_modules/
+
+## OS
+.DS_Store
+Thumbs.db
+
+## Rider / JetBrains
+.idea/
+
+## VS Code
+.vscode/

@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "PowerShell(\\(Get-ChildItem \"c:\\\\WORK\\\\VisualStudio\\\\PruebaApp\" -Force\\).Count)",
+      "PowerShell($items = Get-ChildItem \"c:\\\\WORK\\\\VisualStudio\\\\PruebaApp\" -Force; $items | Where-Object { $_.Name -ne '.claude' } | ForEach-Object { $_.FullName })",
+      "PowerShell(New-Item -ItemType Directory -Path \"c:\\\\WORK\\\\VisualStudio\\\\PruebaApp\\\\src\\\\MyApp.Web\\\\Auth\" -Force)",
+      "PowerShell(New-Item -ItemType Directory -Path \"c:\\\\WORK\\\\VisualStudio\\\\PruebaApp\\\\src\\\\MyApp.Maui\\\\Auth\" -Force)",
+      "PowerShell(Get-ChildItem \"c:\\\\WORK\\\\VisualStudio\\\\PruebaApp\\\\src\\\\MyApp.Infrastructure\\\\Migrations\" -ErrorAction SilentlyContinue | ForEach-Object { $_.Name })"
+    ]
+  }
+}
