@@ -1,0 +1,45 @@
+﻿using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.Extensions.Logging;
+using Entcuentro.Application.Interfaces;
+using Entcuentro.Application.Repositories;
+using Entcuentro.Maui.Auth;
+using Entcuentro.Maui.Data;
+using Entcuentro.Maui.Services;
+using Entcuentro.UI.Auth;
+
+namespace Entcuentro.Maui;
+
+public static class MauiProgram
+{
+    public static MauiApp CreateMauiApp()
+    {
+        var builder = MauiApp.CreateBuilder();
+        builder
+            .UseMauiApp<App>()
+            .ConfigureFonts(fonts =>
+            {
+                fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
+            });
+
+        builder.Services.AddMauiBlazorWebView();
+
+        const string apiBaseUrl = "https://10.0.2.2:5001"; // Android emulator → localhost
+        builder.Services.AddSingleton(_ => new HttpClient { BaseAddress = new Uri(apiBaseUrl) });
+
+        builder.Services.AddAuthorizationCore();
+        builder.Services.AddSingleton<MauiJwtAuthStateProvider>();
+        builder.Services.AddSingleton<AuthenticationStateProvider>(sp => sp.GetRequiredService<MauiJwtAuthStateProvider>());
+        builder.Services.AddSingleton<ITokenManager>(sp => sp.GetRequiredService<MauiJwtAuthStateProvider>());
+
+        builder.Services.AddSingleton<ISyncService, MauiSyncService>();
+        builder.Services.AddSingleton(typeof(IOfflineRepository<>), typeof(SqliteRepository<>));
+        builder.Services.AddSingleton(typeof(IEntityRepository<>), typeof(CachedRepository<>));
+
+#if DEBUG
+        builder.Services.AddBlazorWebViewDeveloperTools();
+        builder.Logging.AddDebug();
+#endif
+
+        return builder.Build();
+    }
+}

@@ -1,0 +1,11 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/Entcuentro.Api/Entcuentro.Api.csproj" />
+    <Project Path="src/Entcuentro.Application/Entcuentro.Application.csproj" />
+    <Project Path="src/Entcuentro.Infrastructure/Entcuentro.Infrastructure.csproj" />
+    <Project Path="src/Entcuentro.Maui/Entcuentro.Maui.csproj" />
+    <Project Path="src/Entcuentro.Shared/Entcuentro.Shared.csproj" />
+    <Project Path="src/Entcuentro.UI/Entcuentro.UI.csproj" />
+    <Project Path="src/Entcuentro.Web/Entcuentro.Web.csproj" />
+  </Folder>
+</Solution>

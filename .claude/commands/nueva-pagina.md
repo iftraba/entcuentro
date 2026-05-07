@@ -1,4 +1,4 @@
-Eres un asistente especializado en este proyecto PlantillaDotNet. Tu tarea es crear una nueva página Blazor compartida siguiendo EXACTAMENTE los patrones del proyecto.
+Eres un asistente especializado en este proyecto Entcuentro. Tu tarea es crear una nueva página Blazor compartida siguiendo EXACTAMENTE los patrones del proyecto.
 
 ## Antes de empezar
 
@@ -18,14 +18,14 @@ Muestra un resumen de archivos a crear y pide confirmación antes de empezar.
 
 ## Patrón a seguir
 
-Todas las páginas van en `src/PlantillaDotNet.UI/Pages/` (compartidas entre Web y MAUI).
+Todas las páginas van en `src/Entcuentro.UI/Pages/` (compartidas entre Web y MAUI).
 
-### Página de lista — `src/PlantillaDotNet.UI/Pages/{Entidades}Page.razor`
+### Página de lista — `src/Entcuentro.UI/Pages/{Entidades}Page.razor`
 
 ```razor
 @page "/{entidades}"
 @attribute [Authorize]          @* o [Authorize(Roles = "Administrador")] si es solo admin *@
-@using PlantillaDotNet.Shared.Models
+@using Entcuentro.Shared.Models
 @inject IEntityRepository<{Entidad}> Repo
 @inject NavigationManager Nav
 
@@ -125,12 +125,12 @@ else
 }
 ```
 
-### Página de formulario — `src/PlantillaDotNet.UI/Pages/{Entidades}EditPage.razor`
+### Página de formulario — `src/Entcuentro.UI/Pages/{Entidades}EditPage.razor`
 
 ```razor
 @page "/{entidades}/editar"
 @attribute [Authorize]
-@using PlantillaDotNet.Shared.Models
+@using Entcuentro.Shared.Models
 @inject IEntityRepository<{Entidad}> Repo
 @inject NavigationManager Nav
 
@@ -225,7 +225,7 @@ else
 
 ### Añadir los links al NavMenu
 
-Recuerda añadir los enlaces en `src/PlantillaDotNet.Web/Layout/NavMenu.razor` y en `src/PlantillaDotNet.Maui/Components/Layout/NavMenu.razor`:
+Recuerda añadir los enlaces en `src/Entcuentro.Web/Layout/NavMenu.razor` y en `src/Entcuentro.Maui/Components/Layout/NavMenu.razor`:
 
 ```razor
 <div class="nav-item px-3">
@@ -241,8 +241,8 @@ Si la página es solo para administradores, envolverla en `<AuthorizeView Roles=
 
 ## Notas importantes
 
-- Las páginas van en `PlantillaDotNet.UI` para que funcionen en Web Y MAUI sin duplicar código.
+- Las páginas van en `Entcuentro.UI` para que funcionen en Web Y MAUI sin duplicar código.
 - `[SupplyParameterFromQuery]` es la forma correcta de leer parámetros de la URL en Blazor .NET 8+.
 - El borrado llama a `Repo.DeleteAsync()` que hace soft-delete; la lista recarga desde caché que ya excluye `IsDeleted`.
 - No añadir confirmación de borrado con `alert()` de JS; usar un modal Bootstrap o simplemente un segundo botón de confirmación inline si el usuario lo pide.
-- Compilar siempre tras crear las páginas: `dotnet build PlantillaDotNet.slnx`
+- Compilar siempre tras crear las páginas: `dotnet build Entcuentro.slnx`

@@ -1,4 +1,4 @@
-Eres un asistente especializado en este proyecto PlantillaDotNet. Tu tarea es conectar una entidad existente a la infraestructura de sincronización offline ya implementada.
+Eres un asistente especializado en este proyecto Entcuentro. Tu tarea es conectar una entidad existente a la infraestructura de sincronización offline ya implementada.
 
 ## Contexto del proyecto
 
@@ -24,7 +24,7 @@ Muestra un resumen de los archivos a modificar y pide confirmación.
 
 ## Archivos a modificar (en este orden)
 
-### 1. `src/PlantillaDotNet.Api/Controllers/SyncController.cs`
+### 1. `src/Entcuentro.Api/Controllers/SyncController.cs`
 
 El controlador ya tiene los endpoints genéricos. Si la entidad usa `IServerSyncService<T>`, no hay nada que añadir. Si el controlador es tipado por entidad, añadir las rutas específicas:
 
@@ -48,7 +48,7 @@ public async Task<IActionResult> Push{Entidad}(
 }
 ```
 
-### 2. `src/PlantillaDotNet.Web/Services/WebSyncService.cs`
+### 2. `src/Entcuentro.Web/Services/WebSyncService.cs`
 
 Añadir la llamada al método `SyncEntityAsync` ya existente dentro de `SyncAsync()`:
 
@@ -91,7 +91,7 @@ public class WebSyncService(HttpClient httpClient, IJSRuntime js, IServiceProvid
 
 Y registrar en `Program.cs` como `AddScoped` (ya lo está).
 
-### 3. `src/PlantillaDotNet.Maui/Services/MauiSyncService.cs`
+### 3. `src/Entcuentro.Maui/Services/MauiSyncService.cs`
 
 Mismo patrón que `WebSyncService`. Añadir dentro de `SyncAsync()`:
 
@@ -119,7 +119,7 @@ En `ServerSyncService.cs`, el método genérico `PullAsync<T>` y `PushAsync<T>` 
 ### 5. Verificar compilación
 
 ```bash
-dotnet build PlantillaDotNet.slnx
+dotnet build Entcuentro.slnx
 ```
 
 ---

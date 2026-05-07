@@ -18,47 +18,47 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ```
 PruebaApp/
-├── PlantillaDotNet.slnx
+├── Entcuentro.slnx
 └── src/
-    ├── PlantillaDotNet.Shared/           # DTOs, modelos, enums — compartido entre todos los proyectos
-    ├── PlantillaDotNet.UI/               # Razor Class Library — páginas y componentes Blazor compartidos
-    ├── PlantillaDotNet.Web/              # Blazor WebAssembly + PWA
-    ├── PlantillaDotNet.Maui/             # MAUI Blazor Hybrid (iOS y Android)
-    ├── PlantillaDotNet.Api/              # ASP.NET Core Web API
-    ├── PlantillaDotNet.Application/      # Interfaces de servicios — lógica de negocio
-    └── PlantillaDotNet.Infrastructure/   # EF Core, ASP.NET Identity, implementaciones
+    ├── Entcuentro.Shared/           # DTOs, modelos, enums — compartido entre todos los proyectos
+    ├── Entcuentro.UI/               # Razor Class Library — páginas y componentes Blazor compartidos
+    ├── Entcuentro.Web/              # Blazor WebAssembly + PWA
+    ├── Entcuentro.Maui/             # MAUI Blazor Hybrid (iOS y Android)
+    ├── Entcuentro.Api/              # ASP.NET Core Web API
+    ├── Entcuentro.Application/      # Interfaces de servicios — lógica de negocio
+    └── Entcuentro.Infrastructure/   # EF Core, ASP.NET Identity, implementaciones
 ```
 
 ### Dependencias entre proyectos
 
 ```
-PlantillaDotNet.Web  ──→  PlantillaDotNet.UI  ──→  PlantillaDotNet.Shared
-PlantillaDotNet.Maui ──→  PlantillaDotNet.UI
-PlantillaDotNet.Web  ──→  PlantillaDotNet.Application
-PlantillaDotNet.Maui ──→  PlantillaDotNet.Application
-PlantillaDotNet.Api  ──→  PlantillaDotNet.Application  ──→  PlantillaDotNet.Shared
-PlantillaDotNet.Api  ──→  PlantillaDotNet.Infrastructure
-PlantillaDotNet.Infrastructure  ──→  PlantillaDotNet.Application
-PlantillaDotNet.Infrastructure  ──→  PlantillaDotNet.Shared
+Entcuentro.Web  ──→  Entcuentro.UI  ──→  Entcuentro.Shared
+Entcuentro.Maui ──→  Entcuentro.UI
+Entcuentro.Web  ──→  Entcuentro.Application
+Entcuentro.Maui ──→  Entcuentro.Application
+Entcuentro.Api  ──→  Entcuentro.Application  ──→  Entcuentro.Shared
+Entcuentro.Api  ──→  Entcuentro.Infrastructure
+Entcuentro.Infrastructure  ──→  Entcuentro.Application
+Entcuentro.Infrastructure  ──→  Entcuentro.Shared
 ```
 
 ## Comandos habituales
 
 ```bash
 # Compilar toda la solución (excepto MAUI, requiere Visual Studio)
-dotnet build PlantillaDotNet.slnx
+dotnet build Entcuentro.slnx
 
 # Ejecutar el API  →  https://localhost:7136
-dotnet run --project src/PlantillaDotNet.Api --launch-profile https
+dotnet run --project src/Entcuentro.Api --launch-profile https
 
 # Ejecutar la Web  →  https://localhost:7265
-dotnet run --project src/PlantillaDotNet.Web --launch-profile https
+dotnet run --project src/Entcuentro.Web --launch-profile https
 
 # Nueva migración EF
-dotnet ef migrations add <Nombre> --project src/PlantillaDotNet.Infrastructure --startup-project src/PlantillaDotNet.Api
+dotnet ef migrations add <Nombre> --project src/Entcuentro.Infrastructure --startup-project src/Entcuentro.Api
 
 # Aplicar migraciones manualmente
-dotnet ef database update --project src/PlantillaDotNet.Infrastructure --startup-project src/PlantillaDotNet.Api
+dotnet ef database update --project src/Entcuentro.Infrastructure --startup-project src/Entcuentro.Api
 ```
 
 MAUI requiere Visual Studio 2022+ con la carga de trabajo MAUI instalada.
@@ -66,9 +66,9 @@ MAUI requiere Visual Studio 2022+ con la carga de trabajo MAUI instalada.
 ## Base de datos
 
 - **Motor:** SQL Server LocalDB (incluido con Visual Studio).
-- **Cadena de conexión:** `src/PlantillaDotNet.Api/appsettings.json` → `ConnectionStrings:DefaultConnection`
-- **ORM:** Entity Framework Core 10, Code-First. Migraciones en `PlantillaDotNet.Infrastructure/Data/Migrations/`.
-- **DbContext:** `AppDbContext` en `src/PlantillaDotNet.Infrastructure/Data/AppDbContext.cs`
+- **Cadena de conexión:** `src/Entcuentro.Api/appsettings.json` → `ConnectionStrings:DefaultConnection`
+- **ORM:** Entity Framework Core 10, Code-First. Migraciones en `Entcuentro.Infrastructure/Data/Migrations/`.
+- **DbContext:** `AppDbContext` en `src/Entcuentro.Infrastructure/Data/AppDbContext.cs`
 - Las migraciones pendientes **se aplican automáticamente** al arrancar el API (`db.Database.Migrate()` en `Program.cs`).
 
 ### Usuarios de prueba (sembrados automáticamente)
@@ -84,11 +84,11 @@ MAUI requiere Visual Studio 2022+ con la carga de trabajo MAUI instalada.
 - **Servidor:** ASP.NET Core Identity + JWT Bearer.
 - **JWT:** clave en `appsettings.json → Jwt:Key`. Cambiarla antes de producción (≥32 caracteres).
 - **Endpoints:** `POST /api/auth/login` y `POST /api/auth/register`.
-- **Roles:** `RolNombre.Administrador` y `RolNombre.Usuario` (constantes en `PlantillaDotNet.Shared/Enums/RolNombre.cs`).
+- **Roles:** `RolNombre.Administrador` y `RolNombre.Usuario` (constantes en `Entcuentro.Shared/Enums/RolNombre.cs`).
 
 ### Patrón ITokenManager
 
-Ambos proveedores de auth implementan `ITokenManager` (en `PlantillaDotNet.UI/Auth/`):
+Ambos proveedores de auth implementan `ITokenManager` (en `Entcuentro.UI/Auth/`):
 
 ```
 ITokenManager
@@ -109,37 +109,37 @@ services.AddScoped<AuthenticationStateProvider>(sp => sp.GetRequiredService<JwtA
 services.AddScoped<ITokenManager>(sp => sp.GetRequiredService<JwtAuthStateProvider>());
 ```
 
-## Pantalla de login (PlantillaDotNet.UI)
+## Pantalla de login (Entcuentro.UI)
 
-- Página: `PlantillaDotNet.UI/Pages/Login.razor` → ruta `/login`, usa `@layout LoginLayout`.
-- Layout vacío sin nav: `PlantillaDotNet.UI/Layouts/LoginLayout.razor` (fondo degradado + footer con versión).
-- Redirección automática: `PlantillaDotNet.UI/Components/RedirectToLogin.razor`.
-- Los routers (`App.razor` en Web y `Routes.razor` en MAUI) usan `AdditionalAssemblies` para incluir `PlantillaDotNet.UI` y `RedirectToLogin` en el bloque `<NotAuthorized>`.
+- Página: `Entcuentro.UI/Pages/Login.razor` → ruta `/login`, usa `@layout LoginLayout`.
+- Layout vacío sin nav: `Entcuentro.UI/Layouts/LoginLayout.razor` (fondo degradado + footer con versión).
+- Redirección automática: `Entcuentro.UI/Components/RedirectToLogin.razor`.
+- Los routers (`App.razor` en Web y `Routes.razor` en MAUI) usan `AdditionalAssemblies` para incluir `Entcuentro.UI` y `RedirectToLogin` en el bloque `<NotAuthorized>`.
 - Las páginas protegidas llevan `@attribute [Authorize]`.
 
 ## Soporte offline (infraestructura implementada, pendiente de conectar a entidades reales)
 
-### PlantillaDotNet.Shared
+### Entcuentro.Shared
 - `SyncableEntity` — clase base con `Id (Guid)`, `UpdatedAt`, `IsSynced`, `IsDeleted`.
 - `SyncDtos` — `SyncPushRequest<T>` y `SyncPullResponse<T>`.
 
-### PlantillaDotNet.Application
+### Entcuentro.Application
 - `IOfflineRepository<T>` — CRUD local + `GetUnsyncedAsync`, `MarkAsSyncedAsync`, `ApplyServerChangesAsync`.
 - `ISyncService` — `SyncAsync()`, `IsSyncing`, evento `SyncCompleted`.
 - `IServerSyncService` — `PullAsync<T>(since)` y `PushAsync<T>(changes)`.
 
-### PlantillaDotNet.Infrastructure
+### Entcuentro.Infrastructure
 - `ServerSyncService` — implementa pull/push con EF Core (server wins).
 
-### PlantillaDotNet.Api
+### Entcuentro.Api
 - `SyncController` — `GET /api/sync/pull?since=` y `POST /api/sync/push`.
 
-### PlantillaDotNet.Web
+### Entcuentro.Web
 - `IndexedDbRepository<T>` — implementa `IOfflineRepository<T>` via JS interop.
 - `WebSyncService` — detecta `window.online/offline`, llama `SyncAsync()` al reconectar.
 - `wwwroot/js/indexedDb.js` — wrapper JS de IndexedDB.
 
-### PlantillaDotNet.Maui
+### Entcuentro.Maui
 - `SqliteRepository<T>` — implementa `IOfflineRepository<T>` con `sqlite-net-pcl`.
 - `MauiSyncService` — usa `IConnectivity` para detectar red, llama `SyncAsync()` al reconectar.
 
@@ -176,24 +176,24 @@ services.AddXxx(typeof(IEntityRepository<>), typeof(CachedRepository<>));
 ```
 
 **Archivos clave:**
-- `PlantillaDotNet.Application/Interfaces/IEntityRepository.cs`
-- `PlantillaDotNet.Application/Repositories/CachedRepository.cs`
+- `Entcuentro.Application/Interfaces/IEntityRepository.cs`
+- `Entcuentro.Application/Repositories/CachedRepository.cs`
 
 ## Añadir una nueva entidad (flujo completo)
 
-1. **DTO/Modelo** → `PlantillaDotNet.Shared` (heredar de `SyncableEntity` si necesita offline)
-2. **Interfaz de servicio** → `PlantillaDotNet.Application/Interfaces/`
-3. **Implementación** → `PlantillaDotNet.Infrastructure/Services/`
-4. **Registro DI** → `PlantillaDotNet.Infrastructure/DependencyInjection.cs`
+1. **DTO/Modelo** → `Entcuentro.Shared` (heredar de `SyncableEntity` si necesita offline)
+2. **Interfaz de servicio** → `Entcuentro.Application/Interfaces/`
+3. **Implementación** → `Entcuentro.Infrastructure/Services/`
+4. **Registro DI** → `Entcuentro.Infrastructure/DependencyInjection.cs`
 5. **Migración EF** → `dotnet ef migrations add ...`
-6. **Controlador API** → `PlantillaDotNet.Api/Controllers/` — seguir la convención REST: `GET /api/{tipo_plural}` y `GET /api/{tipo_plural}/{id}` para que `IEntityRepository<T>` los encuentre automáticamente
-7. **Componente Blazor compartido** → `PlantillaDotNet.UI/`
+6. **Controlador API** → `Entcuentro.Api/Controllers/` — seguir la convención REST: `GET /api/{tipo_plural}` y `GET /api/{tipo_plural}/{id}` para que `IEntityRepository<T>` los encuentre automáticamente
+7. **Componente Blazor compartido** → `Entcuentro.UI/`
 
 ## CORS
 
-`src/PlantillaDotNet.Api/appsettings.json → AllowedOrigins` debe incluir la URL de la Web:
+`src/Entcuentro.Api/appsettings.json → AllowedOrigins` debe incluir la URL de la Web:
 - Desarrollo: `https://localhost:7265`
 
 ## MAUI — emulador Android
 
-El emulador Android accede al API en `https://10.0.2.2:7136` (no `localhost`). Configurado en `src/PlantillaDotNet.Maui/MauiProgram.cs`.
+El emulador Android accede al API en `https://10.0.2.2:7136` (no `localhost`). Configurado en `src/Entcuentro.Maui/MauiProgram.cs`.

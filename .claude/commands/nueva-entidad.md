@@ -1,4 +1,4 @@
-Eres un asistente especializado en este proyecto PlantillaDotNet. Tu tarea es crear una nueva entidad completa en la base de datos siguiendo EXACTAMENTE los patrones establecidos.
+Eres un asistente especializado en este proyecto Entcuentro. Tu tarea es crear una nueva entidad completa en la base de datos siguiendo EXACTAMENTE los patrones establecidos.
 
 ## Antes de empezar
 
@@ -12,12 +12,12 @@ Muestra un resumen de todos los archivos que vas a crear/modificar y pide confir
 
 ## Patrón a seguir (sigue este orden exacto)
 
-### 1. Modelo — `src/PlantillaDotNet.Shared/Models/{Entidad}.cs`
+### 1. Modelo — `src/Entcuentro.Shared/Models/{Entidad}.cs`
 
 ```csharp
 using System.ComponentModel.DataAnnotations;
 
-namespace PlantillaDotNet.Shared.Models;
+namespace Entcuentro.Shared.Models;
 
 public class {Entidad} : SyncableEntity
 {
@@ -33,12 +33,12 @@ public class {Entidad} : SyncableEntity
 - Usar DataAnnotations para validación
 - Strings con valor por defecto `string.Empty`
 
-### 2. DTOs — `src/PlantillaDotNet.Shared/DTOs/{Entidad}Dtos.cs`
+### 2. DTOs — `src/Entcuentro.Shared/DTOs/{Entidad}Dtos.cs`
 
 ```csharp
 using System.ComponentModel.DataAnnotations;
 
-namespace PlantillaDotNet.Shared.DTOs;
+namespace Entcuentro.Shared.DTOs;
 
 public record Create{Entidad}Request(
     [Required][MaxLength(200)] string Nombre
@@ -59,13 +59,13 @@ public record {Entidad}Response(
 );
 ```
 
-### 3. Interfaz de servicio — `src/PlantillaDotNet.Application/Interfaces/I{Entidad}Service.cs`
+### 3. Interfaz de servicio — `src/Entcuentro.Application/Interfaces/I{Entidad}Service.cs`
 
 ```csharp
-using PlantillaDotNet.Shared.DTOs;
-using PlantillaDotNet.Shared.Models;
+using Entcuentro.Shared.DTOs;
+using Entcuentro.Shared.Models;
 
-namespace PlantillaDotNet.Application.Interfaces;
+namespace Entcuentro.Application.Interfaces;
 
 public interface I{Entidad}Service
 {
@@ -77,16 +77,16 @@ public interface I{Entidad}Service
 }
 ```
 
-### 4. Implementación — `src/PlantillaDotNet.Infrastructure/Services/{Entidad}Service.cs`
+### 4. Implementación — `src/Entcuentro.Infrastructure/Services/{Entidad}Service.cs`
 
 ```csharp
 using Microsoft.EntityFrameworkCore;
-using PlantillaDotNet.Application.Interfaces;
-using PlantillaDotNet.Infrastructure.Data;
-using PlantillaDotNet.Shared.DTOs;
-using PlantillaDotNet.Shared.Models;
+using Entcuentro.Application.Interfaces;
+using Entcuentro.Infrastructure.Data;
+using Entcuentro.Shared.DTOs;
+using Entcuentro.Shared.Models;
 
-namespace PlantillaDotNet.Infrastructure.Services;
+namespace Entcuentro.Infrastructure.Services;
 
 public class {Entidad}Service(AppDbContext db) : I{Entidad}Service
 {
@@ -141,14 +141,14 @@ public class {Entidad}Service(AppDbContext db) : I{Entidad}Service
 }
 ```
 
-### 5. DbContext — `src/PlantillaDotNet.Infrastructure/Data/AppDbContext.cs`
+### 5. DbContext — `src/Entcuentro.Infrastructure/Data/AppDbContext.cs`
 
 Añadir la propiedad al `AppDbContext`:
 ```csharp
 public DbSet<{Entidad}> {Entidades} { get; set; }
 ```
 
-### 6. Registro DI — `src/PlantillaDotNet.Infrastructure/DependencyInjection.cs`
+### 6. Registro DI — `src/Entcuentro.Infrastructure/DependencyInjection.cs`
 
 Añadir en el método de registro de servicios:
 ```csharp
@@ -159,21 +159,21 @@ services.AddScoped<I{Entidad}Service, {Entidad}Service>();
 
 Ejecutar:
 ```bash
-dotnet ef migrations add Add{Entidad} --project src/PlantillaDotNet.Infrastructure --startup-project src/PlantillaDotNet.Api
+dotnet ef migrations add Add{Entidad} --project src/Entcuentro.Infrastructure --startup-project src/Entcuentro.Api
 ```
 
-### 8. Controlador API — `src/PlantillaDotNet.Api/Controllers/{Entidades}Controller.cs`
+### 8. Controlador API — `src/Entcuentro.Api/Controllers/{Entidades}Controller.cs`
 
 **IMPORTANTE:** La ruta base DEBE ser `/api/{entidades_plural_minúsculas}` para que `IEntityRepository<{Entidad}>` la encuentre automáticamente en el cliente (convención `typeof(T).Name.ToLower() + "s"`).
 
 ```csharp
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using PlantillaDotNet.Application.Interfaces;
-using PlantillaDotNet.Shared.DTOs;
-using PlantillaDotNet.Shared.Models;
+using Entcuentro.Application.Interfaces;
+using Entcuentro.Shared.DTOs;
+using Entcuentro.Shared.Models;
 
-namespace PlantillaDotNet.Api.Controllers;
+namespace Entcuentro.Api.Controllers;
 
 [ApiController]
 [Route("api/{entidades}")]
@@ -222,7 +222,7 @@ public class {Entidades}Controller(I{Entidad}Service service) : ControllerBase
 ### 9. Verificar compilación
 
 ```bash
-dotnet build PlantillaDotNet.slnx
+dotnet build Entcuentro.slnx
 ```
 
 Si compila correctamente, el cliente (Web y MAUI) ya puede usar:

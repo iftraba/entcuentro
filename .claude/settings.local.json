@@ -3,14 +3,14 @@
     "allow": [
       "PowerShell(\\(Get-ChildItem \"c:\\\\WORK\\\\VisualStudio\\\\PruebaApp\" -Force\\).Count)",
       "PowerShell($items = Get-ChildItem \"c:\\\\WORK\\\\VisualStudio\\\\PruebaApp\" -Force; $items | Where-Object { $_.Name -ne '.claude' } | ForEach-Object { $_.FullName })",
-      "PowerShell(New-Item -ItemType Directory -Path \"c:\\\\WORK\\\\VisualStudio\\\\PruebaApp\\\\src\\\\PlantillaDotNet.Web\\\\Auth\" -Force)",
-      "PowerShell(New-Item -ItemType Directory -Path \"c:\\\\WORK\\\\VisualStudio\\\\PruebaApp\\\\src\\\\PlantillaDotNet.Maui\\\\Auth\" -Force)",
-      "PowerShell(Get-ChildItem \"c:\\\\WORK\\\\VisualStudio\\\\PruebaApp\\\\src\\\\PlantillaDotNet.Infrastructure\\\\Migrations\" -ErrorAction SilentlyContinue | ForEach-Object { $_.Name })",
-      "Bash(mv MyApp.Api PlantillaDotNet.Api)",
-      "Bash(mv MyApp.Application PlantillaDotNet.Application)",
-      "Bash(mv MyApp.Infrastructure PlantillaDotNet.Infrastructure)",
-      "Bash(mv MyApp.Maui PlantillaDotNet.Maui)",
-      "Bash(mv MyApp.Shared PlantillaDotNet.Shared)"
+      "PowerShell(New-Item -ItemType Directory -Path \"c:\\\\WORK\\\\VisualStudio\\\\PruebaApp\\\\src\\\\Entcuentro.Web\\\\Auth\" -Force)",
+      "PowerShell(New-Item -ItemType Directory -Path \"c:\\\\WORK\\\\VisualStudio\\\\PruebaApp\\\\src\\\\Entcuentro.Maui\\\\Auth\" -Force)",
+      "PowerShell(Get-ChildItem \"c:\\\\WORK\\\\VisualStudio\\\\PruebaApp\\\\src\\\\Entcuentro.Infrastructure\\\\Migrations\" -ErrorAction SilentlyContinue | ForEach-Object { $_.Name })",
+      "Bash(mv MyApp.Api Entcuentro.Api)",
+      "Bash(mv MyApp.Application Entcuentro.Application)",
+      "Bash(mv MyApp.Infrastructure Entcuentro.Infrastructure)",
+      "Bash(mv MyApp.Maui Entcuentro.Maui)",
+      "Bash(mv MyApp.Shared Entcuentro.Shared)"
     ]
   }
 }
