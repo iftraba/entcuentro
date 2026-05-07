@@ -1,0 +1,27 @@
+using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Components.Web;
+using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using PlantillaDotNet.Application.Interfaces;
+using PlantillaDotNet.UI.Auth;
+using PlantillaDotNet.Web;
+using PlantillaDotNet.Web.Auth;
+using PlantillaDotNet.Web.Data;
+using PlantillaDotNet.Web.Services;
+
+var builder = WebAssemblyHostBuilder.CreateDefault(args);
+builder.RootComponents.Add<App>("#app");
+builder.RootComponents.Add<HeadOutlet>("head::after");
+
+var apiBaseUrl = builder.Configuration["ApiBaseUrl"] ?? "https://localhost:5001";
+
+builder.Services.AddScoped(_ => new HttpClient { BaseAddress = new Uri(apiBaseUrl) });
+
+builder.Services.AddAuthorizationCore();
+builder.Services.AddScoped<JwtAuthStateProvider>();
+builder.Services.AddScoped<AuthenticationStateProvider>(sp => sp.GetRequiredService<JwtAuthStateProvider>());
+builder.Services.AddScoped<ITokenManager>(sp => sp.GetRequiredService<JwtAuthStateProvider>());
+
+builder.Services.AddScoped<ISyncService, WebSyncService>();
+builder.Services.AddScoped(typeof(IOfflineRepository<>), typeof(IndexedDbRepository<>));
+
+await builder.Build().RunAsync();
