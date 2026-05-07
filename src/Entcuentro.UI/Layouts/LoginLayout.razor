@@ -1,4 +1,4 @@
-﻿@inherits LayoutComponentBase
+@inherits LayoutComponentBase
 
 <div class="login-page-wrapper">
     <main class="login-main">
@@ -6,5 +6,32 @@
     </main>
     <footer class="login-page-footer">
         <small>E.N.T.C.U.E.N.T.R.O. &mdash; v1.0.0</small>
+        <button class="about-trigger" @onclick="() => showAbout = true">¿Qué es esto?</button>
     </footer>
 </div>
+
+@if (showAbout)
+{
+    <div class="about-backdrop" @onclick="() => showAbout = false">
+        <div class="about-dialog" @onclick:stopPropagation>
+            <button class="about-close" @onclick="() => showAbout = false" aria-label="Cerrar">&times;</button>
+
+            <div class="text-center mb-3">
+                <span style="font-size:2.5rem;">🌳</span>
+                <h2 class="about-title">E.N.T.C.U.E.N.T.R.O.</h2>
+                <p class="about-acronym">Enganchados Nerds Tirando Cartas Unidos En Nuestras Tiendas Ruinosas y Olorosas</p>
+            </div>
+
+            <p>Como los Ents del Señor de los Anillos, pero en lugar de caminar muy despacio hacia Isengard, aquí quedamos para jugar a cartas.</p>
+            <p>¿Te has plantado en tu tienda favorita un sábado y no había ni un alma? ¿Has mandado un mensaje a cuatro grupos de WhatsApp y nadie ha contestado hasta el lunes?</p>
+            <p>Dile al mundo que estarás en la Tienda X jugando a Y entre las H1 y las H2. Encuentra a otros igual de perdidos. Monta una partida antes de salir de casa.</p>
+            <p class="about-footer-note">Hecho por jugadores, para jugadores.<br/>Con amor, frikismo y demasiado tiempo libre.</p>
+
+            <button class="btn btn-primary w-100 mt-2" @onclick="() => showAbout = false">Entendido, ¡me apunto!</button>
+        </div>
+    </div>
+}
+
+@code {
+    private bool showAbout;
+}

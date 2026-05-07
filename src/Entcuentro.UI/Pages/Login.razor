@@ -84,47 +84,14 @@
             </EditForm>
 
             <div class="text-center mt-3" style="font-size:0.85rem;">
-                <span class="text-muted">¿Aún no tienes cuenta?</span>
-                <a href="/register" class="ms-1 fw-semibold" style="color:#4a7c59;">Crear cuenta</a>
+                <span style="color:#6b5c3e;">¿Aún no tienes cuenta?</span>
+                <a href="/register" class="ms-1 fw-semibold" style="color:#2e5039;">Crear cuenta</a>
             </div>
 
         </div>
 </div>
 
-<div class="login-card mt-3">
-    <div class="text-center">
-        <button class="btn btn-link btn-sm text-muted text-decoration-none" type="button"
-                @onclick="ToggleAbout">
-            @(showAbout ? "Ocultar" : "¿Qué narices es esto?")
-        </button>
-    </div>
-
-    @if (showAbout)
-    {
-        <div class="about-card mt-2">
-            <p>
-                <strong>E.N.T.C.U.E.N.T.R.O.</strong> — como los Ents del Señor de los Anillos,
-                pero en lugar de caminar muy despacio hacia Isengard, aquí quedamos para jugar a cartas.
-            </p>
-            <p>
-                ¿Te has plantado en tu tienda favorita un sábado y no había ni un alma?
-                ¿Has mandado un mensaje a cuatro grupos de WhatsApp y nadie ha contestado hasta el lunes?
-                Esto es para ti.
-            </p>
-            <p>
-                Dile al mundo que estarás en la Tienda X jugando a Y entre las H1 y las H2.
-                Encuentra a otros igual de perdidos. Monta una partida antes de salir de casa.
-            </p>
-            <p class="text-muted mb-0" style="font-size: 0.78rem;">
-                Hecho por jugadores, para jugadores.<br />
-                Con amor, frikismo y demasiado tiempo libre.
-            </p>
-        </div>
-    }
-</div>
-
 @code {
-    private bool showAbout;
     private readonly LoginModel model = new();
     private string? errorMessage;
     private bool isLoading;
@@ -189,7 +156,6 @@
     }
 
     private void TogglePassword() => showPassword = !showPassword;
-    private void ToggleAbout() => showAbout = !showAbout;
 
     private sealed class LoginModel
     {

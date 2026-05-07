@@ -1,39 +1,76 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="">Entcuentro.Web</a>
-        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
-            <span class="navbar-toggler-icon"></span>
+@using Microsoft.AspNetCore.Components.Authorization
+@using Entcuentro.UI.Auth
+@inject AuthenticationStateProvider AuthStateProvider
+@inject ITokenManager TokenManager
+@inject NavigationManager Nav
+
+<div class="sidebar-inner">
+
+    <div class="sidebar-brand">
+        <div class="brand-logo">ENT</div>
+        <div class="brand-text">E.N.T.C.U.E.N.T.R.O.</div>
+    </div>
+
+    <AuthorizeView>
+        <Authorized>
+            <div class="sidebar-user">
+                <div class="user-avatar">@GetInitial(context.User.Identity?.Name)</div>
+                <span class="user-name">@context.User.Identity?.Name</span>
+            </div>
+        </Authorized>
+    </AuthorizeView>
+
+    <button class="sidebar-toggle d-md-none" @onclick="ToggleNav" title="Menú">
+        <span></span><span></span><span></span>
+    </button>
+
+    <nav class="sidebar-nav @(collapsed ? "collapsed" : "")" @onclick="ToggleNav">
+        <NavLink class="sidebar-link" href="" Match="NavLinkMatch.All">
+            <svg viewBox="0 0 20 20" fill="currentColor"><path d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h4a1 1 0 001-1v-3h2v3a1 1 0 001 1h4a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"/></svg>
+            Inicio
+        </NavLink>
+        <NavLink class="sidebar-link" href="partidas">
+            <svg viewBox="0 0 20 20" fill="currentColor"><path d="M9 6a3 3 0 11-6 0 3 3 0 016 0zm-5 8a3 3 0 110-6 3 3 0 010 6zm12-3a3 3 0 11-6 0 3 3 0 016 0zm-5 8a3 3 0 110-6 3 3 0 010 6z"/></svg>
+            Partidas
+        </NavLink>
+        <NavLink class="sidebar-link" href="tiendas">
+            <svg viewBox="0 0 20 20" fill="currentColor"><path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3z"/><path d="M16 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM6.5 18a1.5 1.5 0 100-3 1.5 1.5 0 000 3z"/></svg>
+            Tiendas
+        </NavLink>
+        <NavLink class="sidebar-link" href="catalogo">
+            <svg viewBox="0 0 20 20" fill="currentColor"><path d="M9 4.804A7.968 7.968 0 005.5 4c-1.255 0-2.443.29-3.5.804v10A7.969 7.969 0 015.5 14c1.669 0 3.218.51 4.5 1.385A7.962 7.962 0 0114.5 14c1.255 0 2.443.29 3.5.804v-10A7.968 7.968 0 0014.5 4c-1.255 0-2.443.29-3.5.804V12a1 1 0 11-2 0V4.804z"/></svg>
+            Catálogo
+        </NavLink>
+        <NavLink class="sidebar-link" href="mensajes">
+            <svg viewBox="0 0 20 20" fill="currentColor"><path d="M2 5a2 2 0 012-2h7a2 2 0 012 2v4a2 2 0 01-2 2H9l-3 3v-3H4a2 2 0 01-2-2V5z"/><path d="M15 7v2a4 4 0 01-4 4H9.828l-1.766 1.767c.28.149.599.233.938.233h2l3 3v-3h2a2 2 0 002-2V9a2 2 0 00-2-2h-1z"/></svg>
+            Mensajes
+        </NavLink>
+    </nav>
+
+    <div class="sidebar-bottom">
+        <NavLink class="sidebar-link" href="perfil">
+            <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"/></svg>
+            Mi perfil
+        </NavLink>
+        <button class="sidebar-logout" @onclick="LogoutAsync">
+            <svg viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3 3a1 1 0 00-1 1v12a1 1 0 102 0V4a1 1 0 00-1-1zm10.293 9.293a1 1 0 001.414 1.414l3-3a1 1 0 000-1.414l-3-3a1 1 0 10-1.414 1.414L14.586 9H7a1 1 0 100 2h7.586l-1.293 1.293z" clip-rule="evenodd"/></svg>
+            Salir
         </button>
     </div>
-</div>
 
-<div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
-    <nav class="nav flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="" Match="NavLinkMatch.All">
-                <span class="bi bi-house-door-fill-nav-menu" aria-hidden="true"></span> Home
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="bi bi-plus-square-fill-nav-menu" aria-hidden="true"></span> Counter
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="weather">
-                <span class="bi bi-list-nested-nav-menu" aria-hidden="true"></span> Weather
-            </NavLink>
-        </div>
-    </nav>
 </div>
 
 @code {
-    private bool collapseNavMenu = true;
+    private bool collapsed = true;
 
-    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
+    private void ToggleNav() => collapsed = !collapsed;
 
-    private void ToggleNavMenu()
+    private string GetInitial(string? name) =>
+        string.IsNullOrEmpty(name) ? "?" : name[0].ToString().ToUpper();
+
+    private async Task LogoutAsync()
     {
-        collapseNavMenu = !collapseNavMenu;
+        await TokenManager.NotifyLoggedOutAsync();
+        Nav.NavigateTo("/login", replace: true);
     }
 }
