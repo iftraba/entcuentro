@@ -23,6 +23,9 @@ public class AppIdentityUser : IdentityUser
     [MaxLength(20)]
     public string? Telefono { get; set; }
 
+    [MaxLength(100)]
+    public string? Localidad { get; set; }
+
     public Sexo Sexo { get; set; } = Sexo.NoEspecificado;
 
     public DateOnly? FechaNacimiento { get; set; }

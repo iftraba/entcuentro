@@ -1,9 +1,43 @@
 .login-card {
     width: 100%;
-    max-width: 440px;
-    border-radius: 1.25rem;
+    max-width: 420px;
+    border-radius: 0.75rem;
+    background: #f5f0e4;
+    border: none;
+    color: #2c1a0e;
 }
 
 .login-logo {
-    filter: drop-shadow(0 6px 12px rgba(13, 110, 253, 0.25));
+    filter: drop-shadow(0 4px 16px rgba(0,0,0,0.5));
 }
+
+/* Inputs sobre fondo pergamino */
+.login-card .form-control {
+    background: #fff;
+    border-color: #c8bfa0;
+    color: #2c1a0e;
+}
+.login-card .form-control:focus {
+    border-color: #4a7c59;
+    background: #fff;
+    box-shadow: 0 0 0 0.2rem rgba(74,124,89,0.2);
+}
+.login-card .form-label { color: #2c1a0e; }
+.login-card .text-muted { color: #6b5c3e !important; }
+
+/* Enlace ¿Qué narices es esto? */
+.login-card .btn-link { color: #6b5c3e; font-size: 0.82rem; }
+
+/* About card */
+.about-card {
+    background: rgba(245,240,228,0.08);
+    border: 1px solid rgba(201,168,76,0.3);
+    border-radius: 0.5rem;
+    color: rgba(245,240,228,0.75);
+    font-size: 0.84rem;
+    max-width: 420px;
+    padding: 1.25rem 1.5rem;
+    text-align: center;
+    line-height: 1.6;
+}
+.about-card strong { color: #c9a84c; }

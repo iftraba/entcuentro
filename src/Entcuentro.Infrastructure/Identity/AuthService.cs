@@ -31,7 +31,8 @@ public class AuthService(
         var user = new AppIdentityUser
         {
             Email = request.Email,
-            UserName = request.UserName
+            UserName = request.UserName,
+            Localidad = request.Localidad
         };
 
         var result = await userManager.CreateAsync(user, request.Password);
