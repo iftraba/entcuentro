@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.Extensions.Logging;
 using PlantillaDotNet.Application.Interfaces;
+using PlantillaDotNet.Application.Repositories;
 using PlantillaDotNet.Maui.Auth;
 using PlantillaDotNet.Maui.Data;
 using PlantillaDotNet.Maui.Services;
@@ -32,6 +33,7 @@ public static class MauiProgram
 
         builder.Services.AddSingleton<ISyncService, MauiSyncService>();
         builder.Services.AddSingleton(typeof(IOfflineRepository<>), typeof(SqliteRepository<>));
+        builder.Services.AddSingleton(typeof(IEntityRepository<>), typeof(CachedRepository<>));
 
 #if DEBUG
         builder.Services.AddBlazorWebViewDeveloperTools();

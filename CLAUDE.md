@@ -143,6 +143,42 @@ services.AddScoped<ITokenManager>(sp => sp.GetRequiredService<JwtAuthStateProvid
 - `SqliteRepository<T>` — implementa `IOfflineRepository<T>` con `sqlite-net-pcl`.
 - `MauiSyncService` — usa `IConnectivity` para detectar red, llama `SyncAsync()` al reconectar.
 
+## Caché de entidades en 3 capas (IEntityRepository&lt;T&gt;)
+
+Los componentes Blazor inyectan `IEntityRepository<T>` en lugar de llamar directamente al API o a la BD. El repositorio resuelve cada petición en este orden:
+
+```
+1. Diccionario en memoria   ← más rápido, persiste la sesión
+2. BD local (SQLite/IndexedDB) ← offline, persiste entre arranques
+3. API REST                 ← fuente de verdad, requiere red
+```
+
+Al encontrar un dato en capa N lo propaga hacia arriba automáticamente.
+
+**Convención de ruta API:** `typeof(T).Name.ToLower() + "s"`  
+→ `Producto` → `GET /api/productos`, `GET /api/productos/{id}`
+
+**Uso en componente:**
+```razor
+@inject IEntityRepository<Producto> Repo
+
+var lista = await Repo.GetAllAsync();
+var item  = await Repo.GetByIdAsync(id);
+await Repo.SaveAsync(entidad);
+await Repo.DeleteAsync(id);
+Repo.InvalidateCache();   // forzar refresco (llamar tras ISyncService.SyncAsync)
+```
+
+**Registro DI** (ya configurado en Web y MAUI):
+```csharp
+// Web: AddScoped  |  MAUI: AddSingleton
+services.AddXxx(typeof(IEntityRepository<>), typeof(CachedRepository<>));
+```
+
+**Archivos clave:**
+- `PlantillaDotNet.Application/Interfaces/IEntityRepository.cs`
+- `PlantillaDotNet.Application/Repositories/CachedRepository.cs`
+
 ## Añadir una nueva entidad (flujo completo)
 
 1. **DTO/Modelo** → `PlantillaDotNet.Shared` (heredar de `SyncableEntity` si necesita offline)
@@ -150,7 +186,7 @@ services.AddScoped<ITokenManager>(sp => sp.GetRequiredService<JwtAuthStateProvid
 3. **Implementación** → `PlantillaDotNet.Infrastructure/Services/`
 4. **Registro DI** → `PlantillaDotNet.Infrastructure/DependencyInjection.cs`
 5. **Migración EF** → `dotnet ef migrations add ...`
-6. **Controlador** → `PlantillaDotNet.Api/Controllers/`
+6. **Controlador API** → `PlantillaDotNet.Api/Controllers/` — seguir la convención REST: `GET /api/{tipo_plural}` y `GET /api/{tipo_plural}/{id}` para que `IEntityRepository<T>` los encuentre automáticamente
 7. **Componente Blazor compartido** → `PlantillaDotNet.UI/`
 
 ## CORS

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using PlantillaDotNet.Application.Interfaces;
+using PlantillaDotNet.Application.Repositories;
 using PlantillaDotNet.UI.Auth;
 using PlantillaDotNet.Web;
 using PlantillaDotNet.Web.Auth;
@@ -23,5 +24,6 @@ builder.Services.AddScoped<ITokenManager>(sp => sp.GetRequiredService<JwtAuthSta
 
 builder.Services.AddScoped<ISyncService, WebSyncService>();
 builder.Services.AddScoped(typeof(IOfflineRepository<>), typeof(IndexedDbRepository<>));
+builder.Services.AddScoped(typeof(IEntityRepository<>), typeof(CachedRepository<>));
 
 await builder.Build().RunAsync();
